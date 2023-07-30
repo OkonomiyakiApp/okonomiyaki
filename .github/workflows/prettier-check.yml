@@ -1,0 +1,16 @@
+name: Prettier Check
+
+on: [push, pull_request]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Prettier Check
+        uses: creyD/prettier_action@v4.3
+        with:
+          dry: true
+          prettier_options: --check .
