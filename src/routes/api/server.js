@@ -1,7 +1,7 @@
 import PocketBase from "pocketbase";
 import { writable } from "svelte/store";
 
-const PUBLIC_POCKETBASE_URL = process.env.PUBLIC_POCKETBASE_URL;
+const PUBLIC_POCKETBASE_URL = import.meta.env.PUBLIC_POCKETBASE_URL;
 
 const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 export const currentUser = writable(pb.authStore.model);

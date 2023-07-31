@@ -1,45 +1,64 @@
 const assert = require("assert");
-const {
-  authenticate,
-  register,
-  confirmVerification,
-  changePassword,
-} = require("../../lib/backend/server.js/index.js");
-
-// TODO Add the missing test cases
+const dotenv = require("dotenv");
+dotenv.config();
 
 describe("Server", () => {
-  describe("#authenticate()", () => {
-    it("should authenticate a user with correct username and password", async () => {
-      const result = await authenticate("correctusername", "correctpassword");
-      assert.ok(result, "authenticated user should be truthy");
-      // Add more assertions based on your expectations
-    });
-
-    // Negative test case
-    it("should throw an error with incorrect username or password", async () => {
-      try {
-        await authenticate("incorrectusername", "wrongpassword");
-        assert.fail("Expected an error to be thrown");
-      } catch (error) {
-        assert.ok(error instanceof Error, "an error should be thrown");
-        // Optionally check the error message
-        assert.strictEqual(
-          error.message,
-          "Authentication failed",
-          'error message should be "Authentication failed"'
-        );
-      }
-    });
-  });
+  let registeredUserEmail; // Store the email of the registered user for deletion
 
   describe("#register()", () => {
     it("should register a new user with valid credentials", async () => {
-      // Your test case for successful registration
+      const { register } = await import("../api/server.js");
+
+      const result = await register(
+        "newuser@example.com",
+        "newusername",
+        "newpassword",
+        "newpassword"
+      );
+      console.log("Registration result:", result);
+      assert.ok(result, "registration should be successful");
+      registeredUserEmail = "newuser@example.com"; // Store the email for deletion
+    });
+    
+    it("should throw an error for invalid or duplicate credentials", async () => {
+      const { register } = await import("../api/server.js");
+
+      await register(
+        "newuser@example.com",
+        "newusername",
+        "password123",
+        "password123"
+      );
+      // Try to duplicate user
+      try {
+        await register(
+          "newuser@example.com",
+          "newusername",
+          "password123",
+          "password123"
+        );
+        assert.fail("Expected an error to be thrown");
+      } catch (error) {
+        assert.ok(error instanceof Error, "an error should be thrown");
+        assert.strictEqual(
+          error.message,
+          "Registration failed",
+          'error message should be "Registration failed"'
+        );
+      }
     });
 
-    it("should throw an error for invalid or duplicate credentials", async () => {
-      // Your test case for registration failure
+    // Use the `after` hook to clean up the registered user
+    after(async () => {
+      if (registeredUserEmail) {
+        const { deleteUser } = await import("../api/server.js");
+        try {
+          // Attempt to delete the registered user
+          await deleteUser(registeredUserEmail);
+        } catch (error) {
+          assert.fail("Failed to delete the registered user");
+        }
+      }
     });
   });
 

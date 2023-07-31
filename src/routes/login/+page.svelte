@@ -1,6 +1,6 @@
 <script>
   import { fade, scale } from "svelte/transition";
-  import { authenticate, confirmVerification } from "../../lib/backend/server.js";
+  import { authenticate, confirmVerification } from "../api/server.js";
   import { toast } from "@zerodevx/svelte-toast";
 
   let email = "";

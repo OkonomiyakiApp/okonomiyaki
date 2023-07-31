@@ -1,7 +1,7 @@
 <script>
   import { PUBLIC_POCKETBASE_URL } from "$env/static/public";
   import { toast } from "@zerodevx/svelte-toast";
-  import { currentUser, logOut, changePassword } from "../../lib/backend/server";
+  import { currentUser, logOut, changePassword } from "../api/server.js";
 
   let showModal = false;
   let currentPassword = "";

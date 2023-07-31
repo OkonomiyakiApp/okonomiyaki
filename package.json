@@ -25,6 +25,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dotenv": "^16.3.1",
 		"eslint": "^8.46.0",
 		"material-icons": "^1.13.9",
 		"pocketbase": "^0.15.3",
