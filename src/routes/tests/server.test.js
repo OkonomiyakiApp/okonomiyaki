@@ -4,7 +4,7 @@ const {
   register,
   confirmVerification,
   changePassword,
-} = require("../../lib/backend/server.js");
+} = require("../../lib/backend/server.js/index.js");
 
 // TODO Add the missing test cases
 
