@@ -1,6 +1,7 @@
 import PocketBase from "pocketbase";
 import { writable } from "svelte/store";
-import { PUBLIC_POCKETBASE_URL } from "$env/static/public";
+
+const PUBLIC_POCKETBASE_URL = process.env.PUBLIC_POCKETBASE_URL;
 
 const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 export const currentUser = writable(pb.authStore.model);
@@ -88,8 +89,6 @@ export async function authenticate(username, password) {
     // Update currentUser store with the user's data
     currentUser.set(authData.record);
 
-    // Redirect to home page
-    window.location.href = "/";
   } catch (error) {
     console.error("Authentication failed", error);
     throw error;
@@ -111,22 +110,19 @@ export async function register(email, username, password, passwordConfirm) {
     // If registration is successful, request email verification
     await pb.collection("users").requestVerification(email);
 
-    // Redirect to the email verification page
-    window.location.href = "/login";
+    console.log("Registration successful:", userData); // Log the user data for verification
+
   } catch (error) {
     console.error("Registration failed", error);
     throw error;
   }
 }
-
 // Confirming email verification
 export async function confirmVerification(userId, code) {
   try {
     // Confirm email verification
     await pb.collection("users").confirmVerification(userId, code);
 
-    // Redirect to the login page
-    window.location.href = "/login";
   } catch (error) {
     console.error("Email verification failed", error);
     throw error;
@@ -138,10 +134,29 @@ export function logOut() {
   // Clear user data and stop token verifier on O
   currentUser.set(null);
   pb.authStore.clear();
-
-  // Redirect to home page
-  window.location.href = "/";
 }
+
+// Delete user's account using email
+export async function deleteUser(email) {
+  try {
+    // Fetch the full list of users
+    const userList = await pb.collection("users").getFullList();
+
+    // Find the user with the given email in the fetched list
+    const userToDelete = userList.find((user) => user.email === email);
+
+    if (userToDelete) {
+      await pb.collection("users").delete(userToDelete.id);
+      console.log(`Deleted user with email: ${email}`);
+    } else {
+      console.log(`User with email ${email} not found.`);
+    }
+  } catch (error) {
+    console.error("Failed to delete user", error);
+    throw error;
+  }
+}
+
 
 // Change password
 export async function changePassword(token, oldPassword, newPassword) {
@@ -160,7 +175,6 @@ export async function changePassword(token, oldPassword, newPassword) {
       oldPassword
     );
 
-    // If re-authentication succeeds, then the old password is correct.
     // Change the password using PocketBase's confirmPasswordReset method
     if (authData.record) {
       await pb.admins.confirmPasswordReset(token, newPassword, newPassword);

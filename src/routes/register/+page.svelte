@@ -1,7 +1,7 @@
 <script>
   import { fade, scale } from "svelte/transition";
   import { toast } from "@zerodevx/svelte-toast";
-  import { register } from "../api/server.js";
+  import { register } from "../../lib/backend/server.js";
   import { ClientResponseError } from "pocketbase";
   let email = "";
   let username = "";
