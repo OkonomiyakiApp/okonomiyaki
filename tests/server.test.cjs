@@ -1,13 +1,11 @@
 const assert = require("assert");
-const dotenv = require("dotenv");
-dotenv.config();
 
 describe("Server", () => {
   let registeredUserEmail; // Store the email of the registered user for deletion
 
   describe("#register()", () => {
     it("should register a new user with valid credentials", async () => {
-      const { register } = await import("../src/lib/backend/server.js");
+      const { register } = await import("../src/routes/api/server.js");
 
       const result = await register(
         "newuser@example.com",
@@ -21,7 +19,7 @@ describe("Server", () => {
     });
     
     it("should throw an error for invalid or duplicate credentials", async () => {
-      const { register } = await import("../src/lib/backend/server.js");
+      const { register } = await import("../src/routes/api/server.js");
 
       await register(
         "newuser@example.com",
@@ -51,7 +49,7 @@ describe("Server", () => {
     // Use the `after` hook to clean up the registered user
     after(async () => {
       if (registeredUserEmail) {
-        const { deleteUser } = await import("../src/lib/backend/server.js");
+        const { deleteUser } = await import("../src/routes/api/server.js");
         try {
           // Attempt to delete the registered user
           await deleteUser(registeredUserEmail);
