@@ -14,46 +14,49 @@
       currentPassword = "";
       newPassword = "";
     } catch (error) {
-      toast.push("Error. Check to make sure current password is correct.")
+      toast.push("Error. Check to make sure current password is correct.");
     }
   }
 </script>
 
 <div class="flex flex-col py-6 mt-28 min-h- screen justify-top">
-    <div
-      class="overflow-hidden mx-auto w-3/4 max-w-2xl rounded-lg shadow-lg bg-oxfordblue"
-    >
-      <div class="px-6 py-8 text-center text-white bg-yblue">
-        <p class="mb-2 text-5xl">Welcome, {$currentUser?.username}</p>
-      </div>
-  
-      <div class="p-8 text-center">
-        {#if $currentUser?.avatar}
-          <!-- svelte-ignore a11y-img-redundant-alt -->
-          <img
-            class="mx-auto mb-4 w-48 h-48 rounded-full"
-            src={`${PUBLIC_POCKETBASE_URL}/api/files/_pb_users_auth_/${$currentUser.id}/${$currentUser.avatar}?token=`}
-            alt="Profile Picture"
-          />
-        {/if}
-  
-        <p class="mb-2 text-2xl font-bold text-gray-400">{$currentUser?.username}</p>
-        <p class="mb-1 text-gray-400">Email: {$currentUser?.email}</p>
-        <p class="mb-1 text-gray-400">Account created on: {$currentUser?.created}</p>
-        <p class="mb-8 text-gray-400">Bio: {$currentUser?.bio}</p>
-  
-        <div class="flex justify-around">
-          <button
-            class="px-6 py-3 mb-3 w-40 text-2xl font-bold text-white rounded-md bg-yblue"
-            on:click={logOut}>Log Out</button
-          >
-          <button
+  <div
+    class="overflow-hidden mx-auto w-3/4 max-w-2xl rounded-lg shadow-lg bg-oxfordblue"
+  >
+    <div class="px-6 py-8 text-center text-white bg-yblue">
+      <p class="mb-2 text-5xl">Welcome, {$currentUser?.username}</p>
+    </div>
+
+    <div class="p-8 text-center">
+      {#if $currentUser?.avatar}
+        <!-- svelte-ignore a11y-img-redundant-alt -->
+        <img
+          class="mx-auto mb-4 w-48 h-48 rounded-full"
+          src={`${PUBLIC_POCKETBASE_URL}/api/files/_pb_users_auth_/${$currentUser.id}/${$currentUser.avatar}?token=`}
+          alt="Profile Picture"
+        />
+      {/if}
+
+      <p class="mb-2 text-2xl font-bold text-gray-400">
+        {$currentUser?.username}
+      </p>
+      <p class="mb-1 text-gray-400">Email: {$currentUser?.email}</p>
+      <p class="mb-1 text-gray-400">
+        Account created on: {$currentUser?.created}
+      </p>
+      <p class="mb-8 text-gray-400">Bio: {$currentUser?.bio}</p>
+
+      <div class="flex justify-around">
+        <button
+          class="px-6 py-3 mb-3 w-40 text-2xl font-bold text-white rounded-md bg-yblue"
+          on:click={logOut}>Log Out</button
+        >
+        <button
           class="px-6 py-3 mb-3 w-40 text-2xl font-bold text-white rounded-md bg-yblue"
           on:click={() => (showModal = true)}>Change Password</button
         >
-        
-        </div>
       </div>
+    </div>
 
     <!-- The password change modal -->
     {#if showModal}

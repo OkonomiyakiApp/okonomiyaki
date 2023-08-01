@@ -27,4 +27,3 @@ export function handleLoginError(error) {
     return "An unexpected error occurred.";
   }
 }
-

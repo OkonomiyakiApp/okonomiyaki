@@ -9,14 +9,14 @@
   let isLoggingIn = false;
 
   const handleLogin = async () => {
-  if (isLoggingIn) {
-    toast.push("Please wait before doing that again.")
-    return;
-  }
-  isLoggingIn = true;
-  try {
-    await authenticate(email, password);
-  } catch (error) {
+    if (isLoggingIn) {
+      toast.push("Please wait before doing that again.");
+      return;
+    }
+    isLoggingIn = true;
+    try {
+      await authenticate(email, password);
+    } catch (error) {
       const message = handleLoginError(error);
       toast.push(message);
     } finally {
@@ -25,13 +25,17 @@
       }, 3000);
     }
   };
-
 </script>
 
-
 <div class="flex justify-center items-center min-h-screen">
-  <form in:fade={{ delay: 250, duration: 500 }} class="p-32 w-1/2 rounded-lg shadow-xl bg-oxfordblue">
-    <h1 class="mb-8 text-3xl font-bold text-white" style="transform-origin: center; display: inline-block;">
+  <form
+    in:fade={{ delay: 250, duration: 500 }}
+    class="p-32 w-1/2 rounded-lg shadow-xl bg-oxfordblue"
+  >
+    <h1
+      class="mb-8 text-3xl font-bold text-white"
+      style="transform-origin: center; display: inline-block;"
+    >
       <span in:scale={{ duration: 1500 }} style="display: block;">Login</span>
     </h1>
     <div class="mb-6">

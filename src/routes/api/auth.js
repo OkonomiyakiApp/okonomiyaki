@@ -28,7 +28,7 @@ pb.collection("users")
       // If there's no valid session, clear currentUser and stop the TokenVerifier
       currentUser.set(null);
       tokenVerifier.stop();
-    }
+    },
   );
 
 currentUser.subscribe((user) => {
@@ -42,7 +42,9 @@ currentUser.subscribe((user) => {
 // Logging in
 export async function authenticate(username, password) {
   try {
-    const authData = await pb.collection("users").authWithPassword(username, password);
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(username, password);
 
     // Check if the email has been verified
     if (!authData.record.isEmailVerified) {
@@ -66,7 +68,7 @@ export async function authenticate(username, password) {
           // If there's no valid session, clear currentUser and stop the TokenVerifier
           currentUser.set(null);
           tokenVerifier.stop();
-        }
+        },
       );
   } catch (error) {
     console.error("Authentication failed", error);
@@ -89,7 +91,6 @@ export async function register(email, username, password, passwordConfirm) {
     await pb.collection("users").requestVerification(email);
 
     console.log("Registration successful:", userData); // Log the user data for verification
-
   } catch (error) {
     console.error("Registration failed", error);
     throw error;
@@ -101,7 +102,6 @@ export async function confirmVerification(userId, code) {
   try {
     // Confirm email verification
     await pb.collection("users").confirmVerification(userId, code);
-
   } catch (error) {
     console.error("Email verification failed", error);
     throw error;
@@ -127,14 +127,15 @@ export async function changePassword(token, oldPassword, newPassword) {
     }
 
     // Check if the old password is correct by re-authenticating the user
-    const authData = await pb.collection("users").authWithPassword(
-      user.username,
-      oldPassword
-    );
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(user.username, oldPassword);
 
     // Change the password using PocketBase's confirmPasswordReset method
     if (authData.record) {
-      await pb.collection("users").confirmPasswordReset(token, newPassword, newPassword);
+      await pb
+        .collection("users")
+        .confirmPasswordReset(token, newPassword, newPassword);
 
       // Re-authenticate the user with the new password
       await pb.collection("users").authWithPassword(user.username, newPassword);

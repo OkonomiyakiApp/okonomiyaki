@@ -39,16 +39,16 @@
     right: 2rem !important;
     bottom: 1.5rem !important;
     left: auto !important;
-    z-index: 9999 !important
+    z-index: 9999 !important;
   }
   :global(._toastItem) {
-    --toastBackground: #778DA9;
-    --toastColor: #0D1B2A;
+    --toastBackground: #778da9;
+    --toastColor: #0d1b2a;
   }
   :global(._toastBar) {
-    --toastBarBackground: #415A77;
+    --toastBarBackground: #415a77;
   }
   :global(._toastContainer) {
-  z-index: 9999 !important
-}
+    z-index: 9999 !important;
+  }
 </style>

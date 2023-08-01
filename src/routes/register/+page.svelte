@@ -3,7 +3,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { handleRegistrationError } from "../api/errorHandler.js";
   import { register } from "../api/auth.js";
-  
+
   let email = "";
   let username = "";
   let password = "";
@@ -14,6 +14,7 @@
   const handleRegister = async () => {
     if (password !== passwordConfirm) {
       // Handle password mismatch error
+
       toast.push("Passwords do not match.");
       return;
     }

@@ -11,13 +11,13 @@ describe("Server", () => {
         "newuser@example.com",
         "newusername",
         "newpassword",
-        "newpassword"
+        "newpassword",
       );
       console.log("Registration result:", result);
       assert.ok(result, "registration should be successful");
       registeredUserEmail = "newuser@example.com"; // Store the email for deletion
     });
-    
+
     it("should throw an error for invalid or duplicate credentials", async () => {
       const { register } = await import("../src/routes/api/server.js");
 
@@ -25,7 +25,7 @@ describe("Server", () => {
         "newuser@example.com",
         "newusername",
         "password123",
-        "password123"
+        "password123",
       );
       // Try to duplicate user
       try {
@@ -33,7 +33,7 @@ describe("Server", () => {
           "newuser@example.com",
           "newusername",
           "password123",
-          "password123"
+          "password123",
         );
         assert.fail("Expected an error to be thrown");
       } catch (error) {
@@ -41,7 +41,7 @@ describe("Server", () => {
         assert.strictEqual(
           error.message,
           "Registration failed",
-          'error message should be "Registration failed"'
+          'error message should be "Registration failed"',
         );
       }
     });
