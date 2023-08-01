@@ -21,9 +21,9 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
-
-      - name: Show installed Prettier plugins
-        run: npx prettier --plugin-search-dir=. --show-plugins
+   
+      - name: Show installed npm packages
+        run: npm list
 
 
       - name: Prettify code
