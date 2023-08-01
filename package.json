@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha tests/server.test.cjs -r dotenv/config",
-    "format": "prettier --write  --plugin prettier-plugin-svelte .",
+    "test": "mocha -r dotenv/config tests/server.test.cjs",
+    "format": "prettier --write --plugin prettier-plugin-svelte .",
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
@@ -20,6 +20,8 @@
     "@types/mocha": "^10.0.1",
     "@zerodevx/svelte-toast": "^0.9.5",
     "autoprefixer": "^10.4.14",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.2.1",
     "postcss": "^8.4.27",
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.3",
@@ -31,7 +33,6 @@
   },
   "type": "module",
   "dependencies": {
-    "dotenv": "^16.3.1",
     "eslint": "^8.46.0",
     "material-icons": "^1.13.9",
     "mocha": "^10.2.0",

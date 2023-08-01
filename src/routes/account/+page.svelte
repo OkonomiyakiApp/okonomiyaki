@@ -1,20 +1,31 @@
 <script>
   import { toast } from "@zerodevx/svelte-toast";
   import { changePassword, currentUser, logOut } from "../api/auth";
+    import { goto } from "$app/navigation";
 
   let showModal = false;
   let currentPassword = "";
   let newPassword = "";
+  let confirmPassword = "";
 
   async function onSubmitPasswordChange() {
+    if (newPassword != confirmPassword) {
+      toast.push("Passwords do not match.")
+      return;
+    }
     try {
       await changePassword(currentPassword, newPassword);
       showModal = false;
       currentPassword = "";
       newPassword = "";
+      confirmPassword = "";
     } catch (error) {
       toast.push("Error. Check to make sure current password is correct.");
     }
+  }
+
+  $: if (!$currentUser) {
+    goto("/login");
   }
 </script>
 
@@ -92,6 +103,16 @@
                 class="block p-2 mb-4 w-full rounded border"
                 required
               />
+              <div>
+                <label for="confirmPassword" class="block mb-2">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  bind:value={confirmPassword}
+                  class="block p-2 mb-4 w-full rounded border"
+                  required
+                />
+              </div>
             </div>
             <div class="flex justify-end">
               <button class="p-2 text-white bg-blue-500 rounded" type="submit"
