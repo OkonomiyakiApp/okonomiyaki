@@ -9,28 +9,25 @@ before(async () => {
 });
 
 describe("Server", () => {
+  let registeredUserId; // declare the variable here
+
   describe("#register()", () => {
     it("should register a new user with valid credentials", async () => {
+      await serverAuth.deleteUserByEmail("newuser@example.com");
+
       const result = await serverAuth.register(
         "newuser@example.com",
         "newusername",
         "newpassword",
         "newpassword",
       );
-      console.log("Registration result:", result);
       assert.ok(result, "registration should be successful");
 
       registeredUserId = result.id; // Store the ID for deletion
     });
 
     it("should throw an error for invalid or duplicate credentials", async () => {
-      await serverAuth.register(
-        "newuser@example.com",
-        "newusername",
-        "password123",
-        "password123",
-      );
-      // Try to duplicate user
+      // The user has been created in the previous test, so no need to delete them here
       try {
         await serverAuth.register(
           "newuser@example.com",
@@ -42,9 +39,9 @@ describe("Server", () => {
       } catch (error) {
         assert.ok(error instanceof Error, "an error should be thrown");
         assert.strictEqual(
-          error.message,
-          "Registration failed",
-          'error message should be "Registration failed"',
+          error.response.message,
+          "Failed to create record.",
+          'error message should be "Failed to create record."',
         );
       }
     });
@@ -61,25 +58,25 @@ describe("Server", () => {
     });
   });
 
-  // other test suites...
-});
+  // TODO finish writing tests
 
-describe("#confirmVerification()", () => {
-  it("should confirm email verification with valid user ID and code", async () => {
-    // Your test case for successful verification
-  });
+  // describe("#confirmVerification()", () => {
+  //   it("should confirm email verification with valid user ID and code", async () => {
+  //     // Your test case for successful verification
+  //   });
 
-  it("should throw an error for invalid or expired verification code", async () => {
-    // Your test case for verification failure
-  });
-});
+  //   it("should throw an error for invalid or expired verification code", async () => {
+  //     // Your test case for verification failure
+  //   });
+  // });
 
-describe("#changePassword()", () => {
-  it("should change the password for an authenticated user", async () => {
-    // Your test case for successful password change
-  });
+  // describe("#changePassword()", () => {
+  //   it("should change the password for an authenticated user", async () => {
+  //     // Your test case for successful password change
+  //   });
 
-  it("should throw an error for incorrect old password or invalid token", async () => {
-    // Your test case for password change failure
-  });
+  //   it("should throw an error for incorrect old password or invalid token", async () => {
+  //     // Your test case for password change failure
+  //   });
+  // });
 });

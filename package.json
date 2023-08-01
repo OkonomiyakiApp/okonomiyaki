@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha tests/server.test.cjs",
+    "test": "mocha tests/server.test.cjs -r dotenv/config",
     "format": "prettier --write  --plugin prettier-plugin-svelte .",
     "dev": "vite dev",
     "build": "vite build",

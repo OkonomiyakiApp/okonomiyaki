@@ -13,17 +13,19 @@ export function handleRegistrationError(error) {
         return "Something went wrong. Please try again.";
     }
   } else {
-    return "An unexpected error occurred.";
+    return "An error occurred. Please try again.";
   }
 }
 
 export function handleLoginError(error) {
   if (error instanceof Error) {
     switch (error.message) {
+      case "Email not verified.":
+      return "Please verify your email before signing in.";
       default:
         return "Username or password is invalid. Please try again.";
     }
   } else {
-    return "An unexpected error occurred.";
+    return "An error occurred. Please try again.";
   }
 }

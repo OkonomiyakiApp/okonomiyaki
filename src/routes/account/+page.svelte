@@ -1,5 +1,4 @@
 <script>
-  import { PUBLIC_POCKETBASE_URL } from "$env/static/public";
   import { toast } from "@zerodevx/svelte-toast";
   import { changePassword, currentUser, logOut } from "../api/auth";
 
@@ -30,9 +29,10 @@
     <div class="p-8 text-center">
       {#if $currentUser?.avatar}
         <!-- svelte-ignore a11y-img-redundant-alt -->
+        <!-- TODO See if authData works with this -->
         <img
           class="mx-auto mb-4 w-48 h-48 rounded-full"
-          src={`${PUBLIC_POCKETBASE_URL}/api/files/_pb_users_auth_/${$currentUser.id}/${$currentUser.avatar}?token=`}
+          src={`${import.meta.env.VITE_POCKETBASE_URL}/api/files/_pb_users_auth_/${$currentUser.id}/${$currentUser.avatar}?token=`}
           alt="Profile Picture"
         />
       {/if}

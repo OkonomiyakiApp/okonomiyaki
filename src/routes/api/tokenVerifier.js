@@ -1,5 +1,5 @@
-import { logOut } from "./auth";
-import { pb } from "./main";
+import { logOut } from "./auth.js";
+import { pb } from "./main.js";
 
 let tokenVerifier; // Make it accessible in this module scope
 
