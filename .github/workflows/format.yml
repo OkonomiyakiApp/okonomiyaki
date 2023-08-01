@@ -1,31 +1,26 @@
-name: Prettier Format
-
+name: format
 on:
-  push:
   pull_request:
-
+  push:
 jobs:
-  prettier:
+  format:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: 20.4.0
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Show installed npm packages
-        run: npm list
+      - name: Run npm format
+        run: npm run format
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          prettier_options: --write **/*.{js,cjs,html,svelte,json}
+          commit_message: Apply formatting changes
+          branch: ${{ github.head_ref }}
