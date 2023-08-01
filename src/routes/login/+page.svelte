@@ -2,6 +2,7 @@
   import { fade, scale } from "svelte/transition";
   import { toast } from "@zerodevx/svelte-toast";
   import { authenticate } from "../api/auth";
+  import { handleLoginError } from "../api/errorHandler";
 
   let email = "";
   let password = "";
@@ -16,17 +17,14 @@
   try {
     await authenticate(email, password);
   } catch (error) {
-    if (error instanceof Error) {
-      toast.push(error.message);
-    } else {
-      toast.push('An unexpected error occurred.');
+      const message = handleLoginError(error);
+      toast.push(message);
+    } finally {
+      setTimeout(() => {
+        isLoggingIn = false;
+      }, 3000);
     }
-  }
-  
-  setTimeout(() => {
-    isLoggingIn = false;
-  }, 3000); // Set a delay of 3 seconds
-};
+  };
 
 </script>
 

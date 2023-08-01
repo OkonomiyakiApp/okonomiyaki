@@ -24,6 +24,7 @@ pb.collection("users")
       tokenVerifier.start();
     },
     (error) => {
+      console.error("Failed to refresh authentication", error);
       // If there's no valid session, clear currentUser and stop the TokenVerifier
       currentUser.set(null);
       tokenVerifier.stop();
@@ -61,12 +62,14 @@ export async function authenticate(username, password) {
           tokenVerifier.start();
         },
         (error) => {
+          console.error("Failed to refresh authentication", error);
           // If there's no valid session, clear currentUser and stop the TokenVerifier
           currentUser.set(null);
           tokenVerifier.stop();
         }
       );
   } catch (error) {
+    console.error("Authentication failed", error);
     throw error;
   }
 }
