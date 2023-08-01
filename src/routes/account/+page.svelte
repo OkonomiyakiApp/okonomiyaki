@@ -32,7 +32,11 @@
         <!-- TODO See if authData works with this -->
         <img
           class="mx-auto mb-4 w-48 h-48 rounded-full"
-          src={`${import.meta.env.VITE_POCKETBASE_URL}/api/files/_pb_users_auth_/${$currentUser.id}/${$currentUser.avatar}?token=`}
+          src={`${
+            import.meta.env.VITE_POCKETBASE_URL
+          }/api/files/_pb_users_auth_/${$currentUser.id}/${
+            $currentUser.avatar
+          }?token=`}
           alt="Profile Picture"
         />
       {/if}

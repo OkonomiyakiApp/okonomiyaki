@@ -129,7 +129,7 @@ export async function changePassword(token, oldPassword, newPassword) {
 // Delete user by ID
 export async function deleteUserById(userID) {
   if (!userID) {
-    throw new Error('User ID is required');
+    throw new Error("User ID is required");
   }
 
   try {
@@ -142,13 +142,13 @@ export async function deleteUserById(userID) {
 // Deleting user by email
 export async function deleteUserByEmail(email) {
   if (!email) {
-    throw new Error('Email is required');
+    throw new Error("Email is required");
   }
 
   try {
     const users = await pb.collection("users").getFullList();
-    
-    const user = users.find(user => user.email === email);
+
+    const user = users.find((user) => user.email === email);
 
     if (!user) {
       return;

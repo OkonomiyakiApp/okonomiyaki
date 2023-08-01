@@ -21,7 +21,7 @@ export function handleLoginError(error) {
   if (error instanceof Error) {
     switch (error.message) {
       case "Email not verified.":
-      return "Please verify your email before signing in.";
+        return "Please verify your email before signing in.";
       default:
         return "Username or password is invalid. Please try again.";
     }
