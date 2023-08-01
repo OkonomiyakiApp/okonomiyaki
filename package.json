@@ -35,6 +35,6 @@
     "eslint": "^8.46.0",
     "material-icons": "^1.13.9",
     "mocha": "^10.2.0",
-    "pocketbase": "^0.15.3"
+    "pocketbase": "^0.16.0"
   }
 }
