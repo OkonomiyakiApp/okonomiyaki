@@ -1,8 +1,9 @@
 <script>
   import { fade, scale } from "svelte/transition";
   import { toast } from "@zerodevx/svelte-toast";
-  import { register } from "../api/server.js";
-  import { ClientResponseError } from "pocketbase";
+  import { handleRegistrationError } from "../api/errorHandler.js";
+  import { register } from "../api/auth.js";
+  
   let email = "";
   let username = "";
   let password = "";
@@ -10,45 +11,31 @@
 
   let isRegistering = false;
 
-const handleRegister = async () => {
-  if (password !== passwordConfirm) {
-    // Handle password mismatch error
-    toast.push("Passwords do not match.");
-    return;
-  }
-  
-  if (isRegistering) {
-    toast.push("Please wait before doing that again.");
-    return;
-  }
-
-  isRegistering = true;
-  
-  try {
-    await register(email, username, password, passwordConfirm);
-  } catch (error) {
-    const defaultErrorMessage = "An unexpected error occurred.";
-
-    if (!(error instanceof ClientResponseError)) {
-      toast.push(defaultErrorMessage);
-    } else {
-      // Log the entire response to the console
-      console.log(error.response);
-
-      const errorMessages = Object.values(error.response.data)
-        .map((data) => `<li>${data.message}</li>`)
-        .join("");
-
-      const errorMessage = `<ul>${errorMessages}</ul>`;
-
-      toast.push(errorMessage || defaultErrorMessage);
+  const handleRegister = async () => {
+    if (password !== passwordConfirm) {
+      // Handle password mismatch error
+      toast.push("Passwords do not match.");
+      return;
     }
-  } finally {
-    setTimeout(() => {
-      isRegistering = false;
-    }, 3000); // Set a delay of 3 seconds
-  }
-};
+
+    if (isRegistering) {
+      toast.push("Please wait before doing that again.");
+      return;
+    }
+
+    isRegistering = true;
+
+    try {
+      await register(email, username, password, passwordConfirm);
+    } catch (error) {
+      const message = handleRegistrationError(error);
+      toast.push(message);
+    } finally {
+      setTimeout(() => {
+        isRegistering = false;
+      }, 3000);
+    }
+  };
 </script>
 
 <div class="flex justify-center items-center min-h-screen">
