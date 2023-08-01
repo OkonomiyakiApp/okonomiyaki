@@ -1,7 +1,7 @@
 <script>
   import { toast } from "@zerodevx/svelte-toast";
   import { changePassword, currentUser, logOut } from "../api/auth";
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   let showModal = false;
   let currentPassword = "";
@@ -10,7 +10,7 @@
 
   async function onSubmitPasswordChange() {
     if (newPassword != confirmPassword) {
-      toast.push("Passwords do not match.")
+      toast.push("Passwords do not match.");
       return;
     }
     try {
@@ -104,7 +104,9 @@
                 required
               />
               <div>
-                <label for="confirmPassword" class="block mb-2">Confirm Password</label>
+                <label for="confirmPassword" class="block mb-2"
+                  >Confirm Password</label
+                >
                 <input
                   type="password"
                   id="confirmPassword"

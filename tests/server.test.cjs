@@ -1,5 +1,5 @@
 const assert = require("assert");
-require('dotenv').config()
+require("dotenv").config();
 
 let server;
 let serverAuth;
