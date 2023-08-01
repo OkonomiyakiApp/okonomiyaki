@@ -1,8 +1,8 @@
-name: Format
+name: Prettier Format
 
 on:
-  pull_request:
   push:
+  pull_request:
 
 jobs:
   prettier:
@@ -12,11 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.4.0
+      
+      - name: Install dependencies
+        run: npm ci
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          # This part is also where you can pass other options, for example:
           prettier_options: --write **/*.{js,cjs,html,svelte,json}
