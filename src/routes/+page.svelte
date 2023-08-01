@@ -1,50 +1,31 @@
 <script>
   import { onMount } from "svelte";
+  import { fetchMostRecentVideos } from "./api/videos";
 
   const itemsPerPage = 12;
 
-  let videos = [
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "QH2-TGUlwu4", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-    { id: "doDKaKDvB30", name: "Svelte Tutorial" },
-  ];
+  let videos = [];
 
   let paginatedVideos = [];
   let currentPage = 1;
 
-  onMount(() => {
+  onMount(async () => {
     currentPage = 1;
+    videos = await fetchMostRecentVideos(currentPage, itemsPerPage);
     paginateVideos();
   });
 
   function paginateVideos() {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    paginatedVideos = videos.slice(startIndex, endIndex);
+    paginatedVideos = videos;
   }
 
-  function changePage(direction) {
-    if (
-      direction === "next" &&
-      currentPage < Math.ceil(videos.length / itemsPerPage)
-    ) {
+  async function changePage(direction) {
+    if (direction === "next") {
       currentPage++;
     } else if (direction === "prev" && currentPage > 1) {
       currentPage--;
     }
+    videos = await fetchMostRecentVideos(currentPage, itemsPerPage);
     paginateVideos();
   }
 
@@ -96,10 +77,10 @@
       >
         <img
           class="object-cover w-full h-full"
-          src="https://img.youtube.com/vi/{video.id}/0.jpg"
+          src="https://img.youtube.com/vi/{video.video_ID}/0.jpg"
           alt={video.name}
         />
-        <h1 class="text-sm sm:text-base md:text-lg">Video ID: {video.id}</h1>
+        <h1 class="text-sm sm:text-base md:text-lg">{video.title}</h1>
       </li>
     {/each}
   </ul>
@@ -108,10 +89,7 @@
     <button on:click={() => changePage("prev")} disabled={currentPage === 1}>
       <span class="material-icons"> chevron_left </span>
     </button>
-    <button
-      on:click={() => changePage("next")}
-      disabled={currentPage === Math.ceil(videos.length / itemsPerPage)}
-    >
+    <button on:click={() => changePage("next")}>
       <span class="material-icons"> chevron_right </span>
     </button>
   </div>
