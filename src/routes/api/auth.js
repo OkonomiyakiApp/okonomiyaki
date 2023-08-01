@@ -145,3 +145,4 @@ export async function changePassword(token, oldPassword, newPassword) {
     throw error;
   }
 }
+

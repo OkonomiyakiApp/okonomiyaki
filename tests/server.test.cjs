@@ -1,13 +1,17 @@
 const assert = require("assert");
 
-describe("Server", () => {
-  let registeredUserEmail; // Store the email of the registered user for deletion
+let server;
+let serverAuth;
 
+before(async () => {
+  server = await import("../src/routes/api/main.js");
+  serverAuth = await import("../src/routes/api/auth.js");
+});
+
+describe("Server", () => {
   describe("#register()", () => {
     it("should register a new user with valid credentials", async () => {
-      const { register } = await import("../src/routes/api/server.js");
-
-      const result = await register(
+      const result = await serverAuth.register(
         "newuser@example.com",
         "newusername",
         "newpassword",
@@ -15,13 +19,12 @@ describe("Server", () => {
       );
       console.log("Registration result:", result);
       assert.ok(result, "registration should be successful");
-      registeredUserEmail = "newuser@example.com"; // Store the email for deletion
+
+      registeredUserId = result.id; // Store the ID for deletion
     });
 
     it("should throw an error for invalid or duplicate credentials", async () => {
-      const { register } = await import("../src/routes/api/server.js");
-
-      await register(
+      await serverAuth.register(
         "newuser@example.com",
         "newusername",
         "password123",
@@ -29,7 +32,7 @@ describe("Server", () => {
       );
       // Try to duplicate user
       try {
-        await register(
+        await serverAuth.register(
           "newuser@example.com",
           "newusername",
           "password123",
@@ -46,13 +49,11 @@ describe("Server", () => {
       }
     });
 
-    // Use the `after` hook to clean up the registered user
     after(async () => {
-      if (registeredUserEmail) {
-        const { deleteUser } = await import("../src/routes/api/server.js");
+      if (registeredUserId) {
         try {
           // Attempt to delete the registered user
-          await deleteUser(registeredUserEmail);
+          await serverAuth.deleteUserById(registeredUserId);
         } catch (error) {
           assert.fail("Failed to delete the registered user");
         }
@@ -60,23 +61,25 @@ describe("Server", () => {
     });
   });
 
-  describe("#confirmVerification()", () => {
-    it("should confirm email verification with valid user ID and code", async () => {
-      // Your test case for successful verification
-    });
+  // other test suites...
+});
 
-    it("should throw an error for invalid or expired verification code", async () => {
-      // Your test case for verification failure
-    });
+describe("#confirmVerification()", () => {
+  it("should confirm email verification with valid user ID and code", async () => {
+    // Your test case for successful verification
   });
 
-  describe("#changePassword()", () => {
-    it("should change the password for an authenticated user", async () => {
-      // Your test case for successful password change
-    });
+  it("should throw an error for invalid or expired verification code", async () => {
+    // Your test case for verification failure
+  });
+});
 
-    it("should throw an error for incorrect old password or invalid token", async () => {
-      // Your test case for password change failure
-    });
+describe("#changePassword()", () => {
+  it("should change the password for an authenticated user", async () => {
+    // Your test case for successful password change
+  });
+
+  it("should throw an error for incorrect old password or invalid token", async () => {
+    // Your test case for password change failure
   });
 });

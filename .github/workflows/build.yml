@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PUBLIC_POCKETBASE_URL: ${{ secrets.PUBLIC_POCKETBASE_URL }}
+      PUBLIC_POCKETBASE_URL: ${{ secrets.VITE_POCKETBASE_URL }}
 
     steps:
       - uses: actions/checkout@v2

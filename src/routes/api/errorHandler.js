@@ -10,7 +10,7 @@ export function handleRegistrationError(error) {
       case "Something went wrong while processing your request.":
         return "Something went wrong while creating your account.";
       default:
-        return "Oops, something went wrong. Please try again.";
+        return "Something went wrong. Please try again.";
     }
   } else {
     return "An unexpected error occurred.";
