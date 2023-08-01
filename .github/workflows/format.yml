@@ -22,6 +22,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Show installed Prettier plugins
+        run: npx prettier --plugin-search-dir=. --show-plugins
+
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
