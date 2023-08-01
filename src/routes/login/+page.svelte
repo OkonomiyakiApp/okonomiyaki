@@ -3,6 +3,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { authenticate } from "../api/auth";
   import { handleLoginError } from "../api/errorHandler";
+  import { goto } from "$app/navigation";
 
   let email = "";
   let password = "";
@@ -16,6 +17,8 @@
     isLoggingIn = true;
     try {
       await authenticate(email, password);
+      goto("/");
+      toast.push("Login successful.");
     } catch (error) {
       const message = handleLoginError(error);
       toast.push(message);
