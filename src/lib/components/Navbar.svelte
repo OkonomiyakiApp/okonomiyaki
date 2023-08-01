@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { currentUser } from "../../routes/api/server.js";
+  import { currentUser } from "../../routes/api/auth";
 
   // Spinning animations
   let spinning = false;

@@ -1,55 +1,11 @@
 import { writable } from "svelte/store";
-import PocketBase from "pocketbase";
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { TokenVerifier } from "./tokenVerifier";
+import { pb } from "./main";
 
-const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 export const currentUser = writable(pb.authStore.model);
 
-let tokenVerifier; // Make it accessible in this module scope
+let tokenVerifier = new TokenVerifier(pb, 10000);
 
-class TokenVerifier {
-  constructor(pocketBaseInstance, pollingInterval) {
-    this.pb = pocketBaseInstance;
-    this.pollingInterval = pollingInterval;
-    this.intervalId = null;
-  }
-
-  async isTokenValid() {
-    try {
-      // Call the auth-refresh method.
-      await this.pb.collection("users").authRefresh();
-      return true;
-    } catch (error) {
-      // If the request fails, the token is invalid.
-      return false;
-    }
-  }
-
-  start() {
-    if (this.intervalId) {
-      return;
-    }
-
-    this.intervalId = setInterval(async () => {
-      if (!(await this.isTokenValid())) {
-        logOut(); // Use O function to clear user data and stop verification
-      }
-    }, this.pollingInterval);
-  }
-
-  stop() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-  }
-}
-
-// Initialize TokenVerifier outside of any function
-tokenVerifier = new TokenVerifier(pb, 10000);
-
-// Subscribe to the currentUser store
-// This will start or stop the TokenVerifier whenever currentUser changes
 currentUser.subscribe((user) => {
   if (user) {
     tokenVerifier.start();
@@ -65,20 +21,27 @@ pb.collection("users")
     (authData) => {
       // If there's a valid session, update currentUser and start the TokenVerifier
       currentUser.set(authData.record);
+      tokenVerifier.start();
     },
     (error) => {
-      console.error("Failed to refresh authentication", error);
       // If there's no valid session, clear currentUser and stop the TokenVerifier
       currentUser.set(null);
+      tokenVerifier.stop();
     }
   );
+
+currentUser.subscribe((user) => {
+  if (user) {
+    tokenVerifier.start();
+  } else {
+    tokenVerifier.stop();
+  }
+});
 
 // Logging in
 export async function authenticate(username, password) {
   try {
-    const authData = await pb
-      .collection("users")
-      .authWithPassword(username, password);
+    const authData = await pb.collection("users").authWithPassword(username, password);
 
     // Check if the email has been verified
     if (!authData.record.isEmailVerified) {
@@ -88,12 +51,25 @@ export async function authenticate(username, password) {
     // Update currentUser store with the user's data
     currentUser.set(authData.record);
 
+    // Try to refresh auth after logging in
+    pb.collection("users")
+      .authRefresh()
+      .then(
+        (authData) => {
+          // If there's a valid session, update currentUser and start the TokenVerifier
+          currentUser.set(authData.record);
+          tokenVerifier.start();
+        },
+        (error) => {
+          // If there's no valid session, clear currentUser and stop the TokenVerifier
+          currentUser.set(null);
+          tokenVerifier.stop();
+        }
+      );
   } catch (error) {
-    console.error("Authentication failed", error);
     throw error;
   }
 }
-
 
 // Registering
 export async function register(email, username, password, passwordConfirm) {
@@ -116,6 +92,7 @@ export async function register(email, username, password, passwordConfirm) {
     throw error;
   }
 }
+
 // Confirming email verification
 export async function confirmVerification(userId, code) {
   try {
@@ -130,32 +107,10 @@ export async function confirmVerification(userId, code) {
 
 // Logging out
 export function logOut() {
-  // Clear user data and stop token verifier on O
+  // Clear user data and stop token verifier on logout
   currentUser.set(null);
   pb.authStore.clear();
 }
-
-// Delete user's account using email
-export async function deleteUser(email) {
-  try {
-    // Fetch the full list of users
-    const userList = await pb.collection("users").getFullList();
-
-    // Find the user with the given email in the fetched list
-    const userToDelete = userList.find((user) => user.email === email);
-
-    if (userToDelete) {
-      await pb.collection("users").delete(userToDelete.id);
-      console.log(`Deleted user with email: ${email}`);
-    } else {
-      console.log(`User with email ${email} not found.`);
-    }
-  } catch (error) {
-    console.error("Failed to delete user", error);
-    throw error;
-  }
-}
-
 
 // Change password
 export async function changePassword(token, oldPassword, newPassword) {
@@ -169,17 +124,17 @@ export async function changePassword(token, oldPassword, newPassword) {
     }
 
     // Check if the old password is correct by re-authenticating the user
-    const authData = await pb.admins.authWithPassword(
+    const authData = await pb.collection("users").authWithPassword(
       user.username,
       oldPassword
     );
 
     // Change the password using PocketBase's confirmPasswordReset method
     if (authData.record) {
-      await pb.admins.confirmPasswordReset(token, newPassword, newPassword);
+      await pb.collection("users").confirmPasswordReset(token, newPassword, newPassword);
 
       // Re-authenticate the user with the new password
-      await pb.admins.authWithPassword(user.username, newPassword);
+      await pb.collection("users").authWithPassword(user.username, newPassword);
     }
   } catch (error) {
     console.error("Failed to change password", error);
