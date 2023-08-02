@@ -5,9 +5,9 @@
 
   let selectedDay = null;
 
-function handleDaySelected(event) {
-  selectedDay = event.detail; // Update the selectedDay variable with the selected day from the Heatmap component
-}
+  function handleDaySelected(event) {
+    selectedDay = event.detail; // Update the selectedDay variable with the selected day from the Heatmap component
+  }
 </script>
 
 <svelte:head>
