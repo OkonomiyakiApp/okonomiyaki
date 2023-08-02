@@ -38,6 +38,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Home</title>
+</svelte:head>
+
 <!-- Categories -->
 <div>
   <ul

@@ -59,12 +59,14 @@
       navLinks = [
         { route: "/", icon: "home" },
         { route: "/account", icon: "account_circle" },
+        { route: "/tracking", icon: "date_range" },
         { route: "/about", icon: "info" },
       ];
     } else {
       navLinks = [
         { route: "/", icon: "home" },
         { route: "/login", icon: "login" },
+        { route: "/tracking", icon: "date_range" },
         { route: "/about", icon: "info" },
       ];
     }

@@ -29,6 +29,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>{ $currentUser?.username }'s Account</title>
+</svelte:head>
+
 <div class="flex flex-col py-6 mt-28 min-h- screen justify-top">
   <div
     class="overflow-hidden mx-auto w-3/4 max-w-2xl rounded-lg shadow-lg bg-oxfordblue"

@@ -2,6 +2,10 @@
   import { fade } from "svelte/transition";
 </script>
 
+<svelte:head>
+  <title>About</title>
+</svelte:head>
+
 <div
   class="flex flex-col items-center min-h-screen"
   in:fade={{ delay: 250, duration: 500 }}
