@@ -103,9 +103,9 @@ export function logOut() {
 export async function changePassword(userID, oldPassword, newPassword) {
   try {
     const data = {
-      "password": newPassword,
-      "passwordConfirm": newPassword,
-      "oldPassword": oldPassword,
+      password: newPassword,
+      passwordConfirm: newPassword,
+      oldPassword: oldPassword,
     };
 
     // The requested resource wasn't found

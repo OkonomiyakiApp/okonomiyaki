@@ -76,7 +76,7 @@ describe("Server", () => {
           "changeThisPassword",
           "changeThisPassword",
         );
-  
+
         const currentUser = await serverAuth.authenticate(
           "changepassword@example.com",
           "changeThisPassword",

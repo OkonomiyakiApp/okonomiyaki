@@ -2,7 +2,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { currentUser } from "../api/auth";
   import Heatmap from "$lib/components/Heatmap.svelte";
-    import TrackingCategories from "$lib/components/TrackingCategories.svelte";
+  import TrackingCategories from "$lib/components/TrackingCategories.svelte";
 
   let selectedDay = null;
 
