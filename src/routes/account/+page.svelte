@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-  <title>{ $currentUser?.username }'s Account</title>
+  <title>{$currentUser?.username}'s Account</title>
 </svelte:head>
 
 <div class="flex flex-col py-6 mt-28 min-h- screen justify-top">
