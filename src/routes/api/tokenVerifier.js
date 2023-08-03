@@ -42,4 +42,4 @@ export class TokenVerifier {
 }
 
 // Initialize TokenVerifier outside of any function
-tokenVerifier = new TokenVerifier(pb, 10000);
+tokenVerifier = new TokenVerifier(pb, 60000);

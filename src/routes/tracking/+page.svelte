@@ -2,6 +2,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { currentUser } from "../api/auth";
   import Heatmap from "$lib/components/Heatmap.svelte";
+    import TrackingCategories from "$lib/components/TrackingCategories.svelte";
 
   let selectedDay = null;
 
@@ -16,38 +17,7 @@ function handleDaySelected(event) {
 
 {#if $currentUser}
   <h1 class="flex justify-center mt-10 text-2xl text-white">Tracking</h1>
-  <div class="flex justify-center content-between mt-10 space-x-2">
-    <button
-      class="flex justify-center items-center px-4 py-2 font-bold text-white rounded bg-silverlake hover:bg-yblue"
-    >
-      <i class="mr-2 material-icons">headset</i>
-      Listening
-    </button>
-    <button
-      class="flex justify-center items-center px-4 py-2 font-bold text-white rounded bg-silverlake hover:bg-yblue"
-    >
-      <i class="mr-2 material-icons">headset</i>
-      Reading
-    </button>
-    <button
-      class="flex justify-center items-center px-4 py-2 font-bold text-white rounded bg-silverlake hover:bg-yblue"
-    >
-      <i class="mr-2 material-icons">headset</i>
-      Flashcards
-    </button>
-    <button
-      class="flex justify-center items-center px-4 py-2 font-bold text-white rounded bg-silverlake hover:bg-yblue"
-    >
-      <i class="mr-2 material-icons">headset</i>
-      Immersion
-    </button>
-    <button
-      class="flex justify-center items-center px-4 py-2 font-bold text-white rounded bg-silverlake hover:bg-yblue"
-    >
-      <i class="mr-2 material-icons">headset</i>
-      Grammer
-    </button>
-  </div>
+  <TrackingCategories />
 
   <div class="flex justify-center mt-20 text-white">
     <!-- Pass the selectedDay prop to the Heatmap component -->

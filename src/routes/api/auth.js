@@ -1,7 +1,6 @@
 import { writable } from "svelte/store";
 import { pb } from "./main.js";
 import { TokenVerifier } from "./tokenVerifier.js";
-import { error } from "@sveltejs/kit";
 
 export const currentUser = writable(pb.authStore.model);
 
@@ -38,13 +37,21 @@ currentUser.subscribe((user) => {
 });
 
 // Logging in
-export async function authenticate(username, password) {
+export async function authenticate(
+  username,
+  password,
+  skipEmailVerification = false,
+) {
   try {
     const authData = await pb
       .collection("users")
       .authWithPassword(username, password);
 
-    // Check if the email has been verified
+    if (skipEmailVerification) {
+      return;
+    }
+
+    // Check if the email has been verified or if email verification should be skipped
     if (!authData.record.verified) {
       throw new Error("Email not verified.");
     }
@@ -86,15 +93,6 @@ export async function register(email, username, password, passwordConfirm) {
   }
 }
 
-// Confirming email verification
-export async function confirmVerification(userId, code) {
-  try {
-    await pb.collection("users").confirmVerification(userId, code);
-  } catch (error) {
-    throw error;
-  }
-}
-
 // Logging out
 export function logOut() {
   currentUser.set(null);
@@ -102,60 +100,64 @@ export function logOut() {
 }
 
 // Change password
-export async function changePassword(token, oldPassword, newPassword) {
+export async function changePassword(userID, oldPassword, newPassword) {
   try {
-    const user = pb.authStore.model;
+    const data = {
+      "password": newPassword,
+      "passwordConfirm": newPassword,
+      "oldPassword": oldPassword,
+    };
 
-    if (!user) {
-      throw new Error("No user is currently logged in");
+    // The requested resource wasn't found
+    await pb.collection("users").update(userID, data);
+  } catch (error) {
+    console.error("Error updating user:", error);
+  }
+}
+
+// Delete user with ID
+export async function deleteUser(userID) {
+  try {
+    if (userID) {
+      pb.collection("users").delete(userID);
+    } else {
+      console.log(`User with userID ${userID} not found.`);
     }
+  } catch (error) {
+    console.error("Failed to delete user", error);
+    throw error;
+  }
+}
 
-    const authData = await pb
+// Fetch user ID by the username
+export async function getUserIdByName(userName) {
+  try {
+    const users = await pb
       .collection("users")
-      .authWithPassword(user.username, oldPassword);
+      .getList(1, 10, { filter: `username='${userName}'` });
 
-    if (authData.record) {
-      await pb
-        .collection("users")
-        .confirmPasswordReset(token, newPassword, newPassword);
-
-      await pb.collection("users").authWithPassword(user.username, newPassword);
+    if (users.totalItems === 0) {
+      return null;
     }
+
+    const userId = users.items[0].id;
+
+    return userId;
   } catch (error) {
-    throw error;
+    console.error(`Error fetching user with name: ${userName}:`, error);
+    return null;
   }
 }
 
-// Delete user by ID
-export async function deleteUserById(userID) {
-  if (!userID) {
-    throw new Error("User ID is required");
-  }
-
+// Delete user by the user name
+export async function deleteUserByName(userName) {
   try {
-    await pb.collection("users").delete(userID);
-  } catch (error) {
-    throw error;
-  }
-}
+    const userId = await getUserIdByName(userName);
 
-// Deleting user by email
-export async function deleteUserByEmail(email) {
-  if (!email) {
-    throw new Error("Email is required");
-  }
-
-  try {
-    const users = await pb.collection("users").getFullList();
-
-    const user = users.find((user) => user.email === email);
-
-    if (!user) {
-      return;
+    if (userId) {
+      await pb.collection("users").delete(userId);
     }
-
-    await pb.collection("users").delete(user.id);
   } catch (error) {
-    throw error;
+    console.error(`Error deleting user with name: ${userName}:`, error);
   }
 }
