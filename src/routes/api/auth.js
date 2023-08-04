@@ -1,40 +1,4 @@
-import { writable } from "svelte/store";
 import { pb } from "./main.js";
-import { TokenVerifier } from "./tokenVerifier.js";
-
-export const currentUser = writable(pb.authStore.model);
-
-let tokenVerifier = new TokenVerifier(pb, 10000);
-
-currentUser.subscribe((user) => {
-  if (user) {
-    tokenVerifier.start();
-  } else {
-    tokenVerifier.stop();
-  }
-});
-
-// Fetch current user from backend when the application starts
-pb.collection("users")
-  .authRefresh()
-  .then(
-    (authData) => {
-      currentUser.set(authData.record);
-      tokenVerifier.start();
-    },
-    () => {
-      currentUser.set(null);
-      tokenVerifier.stop();
-    },
-  );
-
-currentUser.subscribe((user) => {
-  if (user) {
-    tokenVerifier.start();
-  } else {
-    tokenVerifier.stop();
-  }
-});
 
 // Logging in
 export async function authenticate(
@@ -56,20 +20,11 @@ export async function authenticate(
       throw new Error("Email not verified.");
     }
 
-    currentUser.set(authData.record);
-
     pb.collection("users")
       .authRefresh()
-      .then(
-        (authData) => {
-          currentUser.set(authData.record);
-          tokenVerifier.start();
-        },
-        () => {
-          currentUser.set(null);
-          tokenVerifier.stop();
-        },
-      );
+      .catch(() => {
+        pb.authStore.clear();
+      });
   } catch (error) {
     throw error;
   }
@@ -95,7 +50,6 @@ export async function register(email, username, password, passwordConfirm) {
 
 // Logging out
 export function logOut() {
-  currentUser.set(null);
   pb.authStore.clear();
 }
 

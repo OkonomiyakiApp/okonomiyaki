@@ -1,6 +1,7 @@
 <script>
   import { toast } from "@zerodevx/svelte-toast";
-  import { changePassword, currentUser, logOut } from "../api/auth";
+  import { changePassword, logOut } from "../api/auth";
+  import { pb } from "../api/main";
   import { goto } from "$app/navigation";
 
   let showModal = false;
@@ -14,7 +15,7 @@
       return;
     }
     try {
-      await changePassword(currentPassword, newPassword);
+      await changePassword(pb.authStore.model, currentPassword, newPassword);
       showModal = false;
       currentPassword = "";
       newPassword = "";
@@ -24,13 +25,15 @@
     }
   }
 
-  $: if (!$currentUser) {
-    goto("/login");
+  async function onLogout() {
+    toast.push("You have been logged out.");
+    logOut();
+    goto('/');
   }
 </script>
 
 <svelte:head>
-  <title>{$currentUser?.username}'s Account</title>
+  <title>{pb.authStore.model?.username}'s Account</title>
 </svelte:head>
 
 <div class="flex flex-col py-6 mt-28 min-h- screen justify-top">
@@ -38,37 +41,37 @@
     class="overflow-hidden mx-auto w-3/4 max-w-2xl rounded-lg shadow-lg bg-oxfordblue"
   >
     <div class="px-6 py-8 text-center text-white bg-yblue">
-      <p class="mb-2 text-5xl">Welcome, {$currentUser?.username}</p>
+      <p class="mb-2 text-5xl">Welcome, {pb.authStore.model?.username}</p>
     </div>
 
     <div class="p-8 text-center">
-      {#if $currentUser?.avatar}
+      {#if pb.authStore.model?.avatar}
         <!-- svelte-ignore a11y-img-redundant-alt -->
         <!-- TODO See if authData works with this -->
         <img
           class="mx-auto mb-4 w-48 h-48 rounded-full"
           src={`${
             import.meta.env.VITE_POCKETBASE_URL
-          }/api/files/_pb_users_auth_/${$currentUser.id}/${
-            $currentUser.avatar
+          }/api/files/_pb_users_auth_/${pb.authStore.model.id}/${
+            pb.authStore.model.avatar
           }?token=`}
           alt="Profile Picture"
         />
       {/if}
 
       <p class="mb-2 text-2xl font-bold text-gray-400">
-        {$currentUser?.username}
+        {pb.authStore.model?.username}
       </p>
-      <p class="mb-1 text-gray-400">Email: {$currentUser?.email}</p>
+      <p class="mb-1 text-gray-400">Email: {pb.authStore.model?.email}</p>
       <p class="mb-1 text-gray-400">
-        Account created on: {$currentUser?.created}
+        Account created on: {pb.authStore.model?.created}
       </p>
-      <p class="mb-8 text-gray-400">Bio: {$currentUser?.bio}</p>
+      <p class="mb-8 text-gray-400">Bio: {pb.authStore.model?.bio}</p>
 
       <div class="flex justify-around">
         <button
           class="px-6 py-3 mb-3 w-40 text-2xl font-bold text-white rounded-md bg-yblue"
-          on:click={logOut}>Log Out</button
+          on:click={onLogout}>Log Out</button
         >
         <button
           class="px-6 py-3 mb-3 w-40 text-2xl font-bold text-white rounded-md bg-yblue"

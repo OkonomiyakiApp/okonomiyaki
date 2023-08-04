@@ -67,7 +67,6 @@ describe("Server", () => {
   describe("#changePassword()", () => {
     it("should throw an error for incorrect old password or invalid token", async () => {
       await serverAuth.deleteUserByName("forgetfulUser");
-      let token;
 
       try {
         await serverAuth.register(
@@ -77,7 +76,7 @@ describe("Server", () => {
           "changeThisPassword",
         );
 
-        const currentUser = await serverAuth.authenticate(
+      await serverAuth.authenticate(
           "changepassword@example.com",
           "changeThisPassword",
           true,

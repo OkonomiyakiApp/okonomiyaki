@@ -1,13 +1,20 @@
 <script>
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { currentUser } from "../../routes/api/auth";
+  import { pb } from "../../routes/api/main";
+  import { goto } from "$app/navigation";
+  import { redirect } from "@sveltejs/kit";
 
   // Spinning animations
   let spinning = false;
   let spinTimeout = null;
   let imgElement = null;
   let navLinks;
+  let isValid = false;
+
+  pb.authStore.onChange(() => {
+    isValid = pb.authStore.isValid;
+  });
 
   function startSpin() {
     cancelAnimationFrame(spinTimeout);
@@ -50,12 +57,9 @@
 
   $: routeId = $page.route.id;
 
-  // Subscribe to the currentUser store
-  $currentUser;
-
-  // Whenever currentUser changes, this will run and update the navLinks
+  // Whenever the user changes, this will run and update the navLinks
   $: {
-    if ($currentUser) {
+    if (isValid) {
       navLinks = [
         { route: "/", icon: "home" },
         { route: "/account", icon: "account_circle" },
