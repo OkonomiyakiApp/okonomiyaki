@@ -76,7 +76,7 @@ describe("Server", () => {
           "changeThisPassword",
         );
 
-      await serverAuth.authenticate(
+        await serverAuth.authenticate(
           "changepassword@example.com",
           "changeThisPassword",
           true,
