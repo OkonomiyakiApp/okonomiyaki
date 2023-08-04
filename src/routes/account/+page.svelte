@@ -28,7 +28,7 @@
   async function onLogout() {
     toast.push("You have been logged out.");
     logOut();
-    goto('/');
+    goto("/");
   }
 </script>
 
