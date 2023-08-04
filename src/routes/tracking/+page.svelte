@@ -1,8 +1,8 @@
 <script>
   import { toast } from "@zerodevx/svelte-toast";
-  import { currentUser } from "../api/auth";
   import Heatmap from "$lib/components/Heatmap.svelte";
   import TrackingCategories from "$lib/components/TrackingCategories.svelte";
+  import { pb } from "../api/main";
 
   let selectedDay = null;
 
@@ -15,14 +15,11 @@
   <title>Tracking</title>
 </svelte:head>
 
-{#if $currentUser}
+{#if pb.authStore.model?.username}
   <h1 class="flex justify-center mt-10 text-2xl text-white">Tracking</h1>
   <TrackingCategories />
 
-  <div class="flex justify-center mt-20 text-white">
-    <!-- Pass the selectedDay prop to the Heatmap component -->
-    {selectedDay}
-  </div>
+  <div class="flex justify-center mt-20 text-white"></div>
 
   <div class="flex justify-center mt-20">
     <Heatmap on:daySelected={handleDaySelected} />
