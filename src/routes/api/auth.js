@@ -20,6 +20,8 @@ export async function authenticate(
       throw new Error("Email not verified.");
     }
 
+    localStorage.setItem('authToken', authData.token);
+    
     pb.collection("users")
       .authRefresh()
       .catch(() => {
