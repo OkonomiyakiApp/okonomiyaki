@@ -31,15 +31,15 @@
     textArray = textArray.filter((_, i) => i !== index);
   }
 </script>
-
-<div class="justify-center max-h-60 text-white">
+A
+<div class="justify-center text-white">
   {#each textArray as text, index (index)}
     <div class="relative p-2 m-2 bg-opacity-10 rounded bg-yblue">
       {#each text.split("\n") as line, lineIndex}
         {#if lineIndex === 0}
           <div class="flex items-center">
             <span class="mr-2 select-none">•</span>
-            <p class="text-white">{line}</p>
+            <p class="overflow-x-auto text-white whitespace-nowrap">{line}</p>
           </div>
         {:else}
           <p class="text-white">{line}</p>
