@@ -2,8 +2,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { pb } from "../../routes/api/main";
-  import { goto } from "$app/navigation";
-  import { redirect } from "@sveltejs/kit";
+  import { isLoading } from "../../routes/stores";
 
   // Spinning animations
   let spinning = false;
@@ -15,6 +14,33 @@
   pb.authStore.onChange(() => {
     isValid = pb.authStore.isValid;
   });
+
+  onMount(async () => {
+    isValid = pb.authStore.isValid;
+  });
+
+  // Page links:
+
+  $: routeId = $page.route.id;
+
+  // Whenever the user changes, this will run and update the navLinks
+  $: {
+    if (isValid) {
+      navLinks = [
+        { route: "/", icon: "home" },
+        { route: "/account", icon: "account_circle" },
+        { route: "/tracking", icon: "date_range" },
+        { route: "/about", icon: "info" },
+      ];
+    } else {
+      navLinks = [
+        { route: "/", icon: "home" },
+        { route: "/login", icon: "login" },
+        { route: "/tracking", icon: "date_range" },
+        { route: "/about", icon: "info" },
+      ];
+    }
+  }
 
   function startSpin() {
     cancelAnimationFrame(spinTimeout);
@@ -52,29 +78,6 @@
   onMount(() => {
     imgElement = document.getElementById("spinning-image");
   });
-
-  // Page links:
-
-  $: routeId = $page.route.id;
-
-  // Whenever the user changes, this will run and update the navLinks
-  $: {
-    if (isValid) {
-      navLinks = [
-        { route: "/", icon: "home" },
-        { route: "/account", icon: "account_circle" },
-        { route: "/tracking", icon: "date_range" },
-        { route: "/about", icon: "info" },
-      ];
-    } else {
-      navLinks = [
-        { route: "/", icon: "home" },
-        { route: "/login", icon: "login" },
-        { route: "/tracking", icon: "date_range" },
-        { route: "/about", icon: "info" },
-      ];
-    }
-  }
 </script>
 
 <div class="flex overflow-hidden flex-col h-screen shadow-xl md:flex-row">

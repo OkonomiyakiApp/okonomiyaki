@@ -6,7 +6,7 @@
   import "./styles.css";
   import { SvelteToast } from "@zerodevx/svelte-toast";
   import { pb } from "./api/main";
-  import { isLoading } from "./stores";
+  import { isLoading } from "./stores.js";
   import Spinner from "$lib/components/Spinner.svelte";
   const options = {
     duration: 4000, // duration of progress bar tween to the `next` value
@@ -21,9 +21,13 @@
   };
   onMount(async () => {
     isLoading.set(true);
-    await pb.collection("users").authRefresh();
+    try {
+        await pb.collection("users").authRefresh();
+    } catch {
+        console.warn("User not logged in.");
+    }
     isLoading.set(false);
-  });
+});
 </script>
 
 <svelte:head>
