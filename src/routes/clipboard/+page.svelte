@@ -31,6 +31,7 @@
     textArray = textArray.filter((_, i) => i !== index);
   }
 </script>
+
 A
 <div class="justify-center text-white">
   {#each textArray as text, index (index)}
