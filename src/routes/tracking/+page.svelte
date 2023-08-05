@@ -8,7 +8,7 @@
   let selectedDay = null;
 
   // create a svelte store
-  let isValid = writable(false); 
+  let isValid = writable(false);
 
   onMount(async () => {
     // set the store's value

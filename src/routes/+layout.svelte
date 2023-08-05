@@ -22,12 +22,12 @@
   onMount(async () => {
     isLoading.set(true);
     try {
-        await pb.collection("users").authRefresh();
+      await pb.collection("users").authRefresh();
     } catch {
-        console.warn("User not logged in.");
+      console.warn("User not logged in.");
     }
     isLoading.set(false);
-});
+  });
 </script>
 
 <svelte:head>
