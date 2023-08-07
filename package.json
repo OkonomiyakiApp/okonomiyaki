@@ -12,7 +12,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch"
   },
   "devDependencies": {
-    "@fontsource/fira-mono": "^5.0.5",
+    "@fontsource/fira-mono": "^5.0.8",
     "@neoconfetti/svelte": "^1.0.0",
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.22.4",
