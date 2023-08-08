@@ -1,62 +1,66 @@
 <script>
-import { onMount, onDestroy } from "svelte";
-import TinySegmenter from "tiny-segmenter";
+  import { onMount, onDestroy } from "svelte";
+  import TinySegmenter from "tiny-segmenter";
 
-let textArray = [];
-let wordCount = 0;
-let startTime = new Date();
-let segmenter = new TinySegmenter();
-let wpm = 0;
-let interval;
-let observer;
+  let textArray = [];
+  let wordCount = 0;
+  let startTime = new Date();
+  let segmenter = new TinySegmenter();
+  let wpm = 0;
+  let interval;
+  let observer;
 
-// Count words in a text
-function countWords(text) {
-  const tokens = segmenter.segment(text);
-  return tokens.filter((token) => token !== "。").length;
-}
+  // Count words in a text
+  function countWords(text) {
+    const tokens = segmenter.segment(text);
+    return tokens.filter((token) => token !== "。").length;
+  }
 
-// Calculate Words Per Minute
-function computeWPM() {
-  const elapsedMinutes = (new Date().getTime() - startTime.getTime()) / (1000 * 60);
-  if(elapsedMinutes === 0) return 0; 
-  return Math.round(wordCount / elapsedMinutes);
-}
+  // Calculate Words Per Minute
+  function computeWPM() {
+    const elapsedMinutes =
+      (new Date().getTime() - startTime.getTime()) / (1000 * 60);
+    if (elapsedMinutes === 0) return 0;
+    return Math.round(wordCount / elapsedMinutes);
+  }
 
-function removeLine(index) {
-  wordCount -= countWords(textArray[index]);
-  textArray = textArray.filter((_, i) => i !== index);
-}
+  function removeLine(index) {
+    wordCount -= countWords(textArray[index]);
+    textArray = textArray.filter((_, i) => i !== index);
+  }
 
-onMount(() => {
-  // Periodic WPM update
-  interval = setInterval(() => {
-    wpm = computeWPM();
-  }, 1000);
+  onMount(() => {
+    // Periodic WPM update
+    interval = setInterval(() => {
+      wpm = computeWPM();
+    }, 1000);
 
-  // Monitor body for new <p> nodes
-  observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeName.toLowerCase() === "p" && node.parentElement === document.body) {
-          textArray = [...textArray, node.textContent];
-          wordCount += countWords(node.textContent);
-          document.body.removeChild(node);
-        }
+    // Monitor body for new <p> nodes
+    observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (
+            node.nodeName.toLowerCase() === "p" &&
+            node.parentElement === document.body
+          ) {
+            textArray = [...textArray, node.textContent];
+            wordCount += countWords(node.textContent);
+            document.body.removeChild(node);
+          }
+        });
       });
     });
+    observer.observe(document.body, { childList: true });
   });
-  observer.observe(document.body, { childList: true });
-});
 
-onDestroy(() => {
-  clearInterval(interval);
-  observer.disconnect();
-});
+  onDestroy(() => {
+    clearInterval(interval);
+    observer.disconnect();
+  });
 
-$: {
-  wpm = computeWPM();
-}
+  $: {
+    wpm = computeWPM();
+  }
 </script>
 
 <div class="flex p-4 space-x-12 text-white">
