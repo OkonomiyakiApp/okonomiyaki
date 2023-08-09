@@ -1,7 +1,8 @@
-[![Build](https://github.com/okonomiyakiapp/okonomiyaki/workflows/Build/badge.svg)](https://github.com/okonomiyakiapp/okonomiyaki/actions?query=workflow:"Build")
-[![GitHub tag](https://img.shields.io/github/tag/okonomiyakiapp/okonomiyaki?include_prereleases=&sort=semver&color=blue)](https://github.com/okonomiyakiapp/okonomiyaki/releases/)
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+<a name="readme-top"></a>
+[![build](https://github.com/OkonomiyakiApp/okonomiyaki/actions/workflows/build.yml/badge.svg)](https://github.com/OkonomiyakiApp/okonomiyaki/actions/workflows/build.yml)
+[![format](https://github.com/OkonomiyakiApp/okonomiyaki/actions/workflows/format.yml/badge.svg)](https://github.com/OkonomiyakiApp/okonomiyaki/actions/workflows/format.yml)
 [![issues - okonomiyaki](https://img.shields.io/github/issues/okonomiyakiapp/okonomiyaki)](https://github.com/okonomiyakiapp/okonomiyaki/issues)
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
 <br />
 <div align="center">
@@ -52,6 +53,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
+<a name="about-the-project"></a>
 ## About The Project
 
 <!-- [![Product Name Screen Shot][screenshot]](https://TODO.com) -->
@@ -82,12 +84,15 @@ and video discovery, with much more to come in the future. The code was desiged 
 
 </div>
 
+
 <!-- GETTING STARTED -->
+<a name="getting-started"></a>
 ## Getting Started
 
 Follow the steps below to learn how you can setup Okonomiyaki in a developer environment.
 
 ### Installation
+<a name="installation"></a>
 
 1. Install PocketBase from the link [here](https://github.com/pocketbase/pocketbase/releases).
 2. Clone the repo
@@ -111,6 +116,7 @@ Follow the steps below to learn how you can setup Okonomiyaki in a developer env
 
 
 <!-- ROADMAP -->
+<a name="roadmap"></a>
 ## Roadmap
 
 - [x] Video Browsing
@@ -122,8 +128,8 @@ See the [open issues](https://github.com/okonomiyakiapp/okonomiyaki/issues) for 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- CONTRIBUTING -->
+<a name="contributing"></a>
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -140,7 +146,8 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+<!-- LICENSE -->
+<a name="license"></a>
 ## License
 
 Released under [MIT](/LICENSE) by [@okonomiyakiapp](https://github.com/okonomiyakiapp).
@@ -150,6 +157,7 @@ Released under [MIT](/LICENSE) by [@okonomiyakiapp](https://github.com/okonomiya
 
 
 <!-- CONTACT -->
+<a name="contact"></a>
 ## Contact
 
 Nathan Yearout - [@NathanYearout](https://www.linkedin.com/in/nathan-yearout/) - nathanyearout@gmail.com
@@ -159,6 +167,7 @@ Nathan Yearout - [@NathanYearout](https://www.linkedin.com/in/nathan-yearout/) -
 
 
 <!-- ACKNOWLEDGMENTS -->
+<a name="acknowledgments"></a>
 ## Acknowledgments
 I am very grateful for the following open-source projects. Thanks for your hard work.
 
