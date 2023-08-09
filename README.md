@@ -51,26 +51,26 @@
   </ol>
 </details>
 
-
 <!-- ABOUT THE PROJECT -->
+
 <a name="about-the-project"></a>
+
 ## About The Project
 
 <!-- [![Product Name Screen Shot][screenshot]](https://TODO.com) -->
+
 Okonomiyaki is an app developed with the SvelteKit framework designed to specifically help language learners, with a focus on Japanese learners. It contains useful features such as time tracking, clipboard insertion,
 and video discovery, with much more to come in the future. The code was desiged with readability and scalability in mind for anyone wanting to contribute to the project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 ### Built With
 
-* ![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
-* ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-* ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
-* ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
-* ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+- ![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
+- ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+- ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+- ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+- ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -84,14 +84,16 @@ and video discovery, with much more to come in the future. The code was desiged 
 
 </div>
 
-
 <!-- GETTING STARTED -->
+
 <a name="getting-started"></a>
+
 ## Getting Started
 
 Follow the steps below to learn how you can setup Okonomiyaki in a developer environment.
 
 ### Installation
+
 <a name="installation"></a>
 
 1. Install PocketBase from the link [here](https://github.com/pocketbase/pocketbase/releases).
@@ -114,9 +116,10 @@ Follow the steps below to learn how you can setup Okonomiyaki in a developer env
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- ROADMAP -->
+
 <a name="roadmap"></a>
+
 ## Roadmap
 
 - [x] Video Browsing
@@ -127,9 +130,10 @@ See the [open issues](https://github.com/okonomiyakiapp/okonomiyaki/issues) for 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- CONTRIBUTING -->
+
 <a name="contributing"></a>
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -145,33 +149,35 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- LICENSE -->
+
 <a name="license"></a>
+
 ## License
 
 Released under [MIT](/LICENSE) by [@okonomiyakiapp](https://github.com/okonomiyakiapp).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 <a name="contact"></a>
+
 ## Contact
 
 Nathan Yearout - [@NathanYearout](https://www.linkedin.com/in/nathan-yearout/) - nathanyearout@gmail.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 <a name="acknowledgments"></a>
+
 ## Acknowledgments
+
 I am very grateful for the following open-source projects. Thanks for your hard work.
 
 - [PokcetBase](https://github.com/pocketbase/pocketbase): Used in the projects backend.
-- [Svelte](https://github.com/sveltejs/svelte): Used in projects frontend. 
-  
+- [Svelte](https://github.com/sveltejs/svelte): Used in projects frontend.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
