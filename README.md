@@ -76,13 +76,12 @@ and video discovery, with much more to come in the future. The code was desiged 
 
 ## Documentation
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<div align="center">
+<div align="left">
 
 [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](/docs/ "Go to project documentation")
-
 </div>
+View the repos official documentation to help you understand how the code is organized and written.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
