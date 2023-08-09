@@ -30,6 +30,7 @@
         { route: "/", icon: "home" },
         { route: "/account", icon: "account_circle" },
         { route: "/tracking", icon: "date_range" },
+        { route: "/clipboard", icon: "menu_book" },
         { route: "/about", icon: "info" },
       ];
     } else {
@@ -37,6 +38,7 @@
         { route: "/", icon: "home" },
         { route: "/login", icon: "login" },
         { route: "/tracking", icon: "date_range" },
+        { route: "/clipboard", icon: "menu_book" },
         { route: "/about", icon: "info" },
       ];
     }
