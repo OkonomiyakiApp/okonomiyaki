@@ -1,7 +1,13 @@
+<!-- $layout.svelte -->
+
 <script>
+  import { onMount } from "svelte";
   import Navbar from "../lib/components/Navbar.svelte";
   import "./styles.css";
   import { SvelteToast } from "@zerodevx/svelte-toast";
+  import { pb } from "./api/main";
+  import { isLoading } from "./stores.js";
+  import Spinner from "$lib/components/Spinner.svelte";
   const options = {
     duration: 4000, // duration of progress bar tween to the `next` value
     initial: 1, // initial progress bar value
@@ -13,6 +19,15 @@
     theme: {}, // css var overrides
     classes: [], // user-defined classes
   };
+  onMount(async () => {
+    isLoading.set(true);
+    try {
+      await pb.collection("users").authRefresh();
+    } catch {
+      console.warn("User not logged in.");
+    }
+    isLoading.set(false);
+  });
 </script>
 
 <svelte:head>
@@ -22,13 +37,17 @@
   />
 </svelte:head>
 
-<div class="flex overflow-hidden h-screen">
-  <Navbar />
-  <div class="overflow-auto flex-1">
-    <slot />
+{#if $isLoading}
+  <Spinner />
+{:else}
+  <div class="flex overflow-hidden h-screen">
+    <Navbar />
+    <div class="overflow-auto flex-1">
+      <slot />
+    </div>
+    <SvelteToast {options} />
   </div>
-  <SvelteToast {options} />
-</div>
+{/if}
 
 <style lang="postcss">
   :global(html) {

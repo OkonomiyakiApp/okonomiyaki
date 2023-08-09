@@ -4,6 +4,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha -r dotenv/config tests/server.test.cjs",
+    "debug-test": "mocha --inspect-brk -r dotenv/config tests/server.test.cjs",
     "format": "prettier --write --plugin prettier-plugin-svelte .",
     "dev": "vite dev",
     "build": "vite build",

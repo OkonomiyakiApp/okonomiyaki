@@ -1,13 +1,46 @@
 <script>
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { currentUser } from "../../routes/api/auth";
+  import { pb } from "../../routes/api/main";
+  import { isLoading } from "../../routes/stores";
 
   // Spinning animations
   let spinning = false;
   let spinTimeout = null;
   let imgElement = null;
   let navLinks;
+  let isValid = false;
+
+  pb.authStore.onChange(() => {
+    isValid = pb.authStore.isValid;
+  });
+
+  onMount(async () => {
+    isValid = pb.authStore.isValid;
+  });
+
+  // Page links:
+
+  $: routeId = $page.route.id;
+
+  // Whenever the user changes, this will run and update the navLinks
+  $: {
+    if (isValid) {
+      navLinks = [
+        { route: "/", icon: "home" },
+        { route: "/account", icon: "account_circle" },
+        { route: "/tracking", icon: "date_range" },
+        { route: "/about", icon: "info" },
+      ];
+    } else {
+      navLinks = [
+        { route: "/", icon: "home" },
+        { route: "/login", icon: "login" },
+        { route: "/tracking", icon: "date_range" },
+        { route: "/about", icon: "info" },
+      ];
+    }
+  }
 
   function startSpin() {
     cancelAnimationFrame(spinTimeout);
@@ -45,30 +78,6 @@
   onMount(() => {
     imgElement = document.getElementById("spinning-image");
   });
-
-  // Page links:
-
-  $: routeId = $page.route.id;
-
-  // Subscribe to the currentUser store
-  $currentUser;
-
-  // Whenever currentUser changes, this will run and update the navLinks
-  $: {
-    if ($currentUser) {
-      navLinks = [
-        { route: "/", icon: "home" },
-        { route: "/account", icon: "account_circle" },
-        { route: "/about", icon: "info" },
-      ];
-    } else {
-      navLinks = [
-        { route: "/", icon: "home" },
-        { route: "/login", icon: "login" },
-        { route: "/about", icon: "info" },
-      ];
-    }
-  }
 </script>
 
 <div class="flex overflow-hidden flex-col h-screen shadow-xl md:flex-row">

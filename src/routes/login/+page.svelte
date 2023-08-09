@@ -30,6 +30,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>Login</title>
+</svelte:head>
+
 <div class="flex justify-center items-center min-h-screen">
   <form
     in:fade={{ delay: 250, duration: 500 }}

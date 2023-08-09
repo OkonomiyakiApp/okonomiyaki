@@ -1,20 +1,18 @@
 const assert = require("assert");
 require("dotenv").config();
 
-let server;
 let serverAuth;
 
 before(async () => {
   server = await import("../src/routes/api/main.js");
   serverAuth = await import("../src/routes/api/auth.js");
+  changePassword = serverAuth.changePassword;
 });
 
 describe("Server", () => {
-  let registeredUserId; // declare the variable here
-
   describe("#register()", () => {
     it("should register a new user with valid credentials", async () => {
-      await serverAuth.deleteUserByEmail("newuser@example.com");
+      await serverAuth.deleteUserByName("newusername");
 
       const result = await serverAuth.register(
         "newuser@example.com",
@@ -23,8 +21,6 @@ describe("Server", () => {
         "newpassword",
       );
       assert.ok(result, "registration should be successful");
-
-      registeredUserId = result.id; // Store the ID for deletion
     });
 
     it("should throw an error for invalid or duplicate credentials", async () => {
@@ -48,13 +44,10 @@ describe("Server", () => {
     });
 
     after(async () => {
-      if (registeredUserId) {
-        try {
-          // Attempt to delete the registered user
-          await serverAuth.deleteUserById(registeredUserId);
-        } catch (error) {
-          assert.fail("Failed to delete the registered user");
-        }
+      try {
+        await serverAuth.deleteUserByName("newusername");
+      } catch (error) {
+        assert.fail("Failed to delete the registered user");
       }
     });
   });
@@ -71,13 +64,59 @@ describe("Server", () => {
   //   });
   // });
 
-  // describe("#changePassword()", () => {
-  //   it("should change the password for an authenticated user", async () => {
-  //     // Your test case for successful password change
-  //   });
+  describe("#changePassword()", () => {
+    it("should throw an error for incorrect old password or invalid token", async () => {
+      await serverAuth.deleteUserByName("forgetfulUser");
 
-  //   it("should throw an error for incorrect old password or invalid token", async () => {
-  //     // Your test case for password change failure
-  //   });
-  // });
+      try {
+        await serverAuth.register(
+          "changepassword@example.com",
+          "forgetfulUser",
+          "changeThisPassword",
+          "changeThisPassword",
+        );
+
+        await serverAuth.authenticate(
+          "changepassword@example.com",
+          "changeThisPassword",
+          true,
+        );
+
+        try {
+          const userID = await serverAuth.getUserIdByName("forgetfulUser");
+          await changePassword(userID, "changeThisPassword", "newPassword");
+        } catch {
+          throw new Error("Failed to change the password.");
+        }
+
+        // Login with old password
+        await serverAuth.authenticate(
+          "changepassword@example.com",
+          "changeThisPassword",
+          true,
+        );
+        assert.fail("Expected an error to be thrown");
+      } catch (error) {
+        try {
+          // Try to login with new password
+          await serverAuth.authenticate(
+            "changepassword@example.com",
+            "newPassword",
+            true,
+          );
+        } catch (error) {
+          assert.fail("Failed to authenticate with new password");
+        }
+      }
+
+      after(async () => {
+        try {
+          // Attempt to delete the registered user
+          await serverAuth.deleteUserByName("forgetfulUser");
+        } catch (error) {
+          assert.fail("Failed to delete the registered user");
+        }
+      });
+    });
+  });
 });

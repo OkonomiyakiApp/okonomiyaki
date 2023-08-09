@@ -5,11 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
+      "type": "node",
       "request": "launch",
-      "type": "chrome",
-      "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}"
+      "name": "Debug Mocha Tests",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debug-test"],
+      "port": 9229,
+      "protocol": "inspector",
+      "args": ["--no-warnings"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
