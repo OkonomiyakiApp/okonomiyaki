@@ -105,9 +105,9 @@ Follow the steps below to learn how you can setup Okonomiyaki in a developer env
    ```sh
    npm install
    ```
-4. Enter your API in a `.env` file
+4. Enter your PocketBase address in a `.env` file
    ```env
-   VITE_POCKETBASE_URL = 'ENTER YOUR API';
+   VITE_POCKETBASE_URL = 'ENTER YOUR ADDRESS';
    ```
 5. Run PocketBase
    ```sh
