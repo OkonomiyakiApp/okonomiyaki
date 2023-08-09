@@ -1,9 +1,6 @@
 <script>
-  import ClipboardSettings from "$lib/components/Clipboard_Settings.svelte";
   import { onMount, onDestroy } from "svelte";
   import TinySegmenter from "tiny-segmenter";
-  import { showWPM, showWordsRead, pickedBackgroundColor } from "../stores";
-  import { hsvToRgb } from "./colorConversion";
 
   let textArray = [];
   let wordCount = 0;
@@ -12,15 +9,6 @@
   let wpm = 0;
   let interval;
   let observer;
-  let backgroundColor;
-  $: {
-    let rgb = hsvToRgb(
-      $pickedBackgroundColor.h,
-      $pickedBackgroundColor.s,
-      $pickedBackgroundColor.v,
-    );
-    backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
-  }
 
   // Count words in a text
   function countWords(text) {
@@ -67,48 +55,36 @@
 
   onDestroy(() => {
     clearInterval(interval);
-    if (observer) {
-      observer.disconnect();
-    }
+    observer.disconnect();
   });
+
+  $: {
+    wpm = computeWPM();
+  }
 </script>
 
-<div
-  class="min-h-screen min-w-screen"
-  style="background-color: {backgroundColor}"
->
-  <div class="flex justify-between items-center p-3 w-full text-white z-5">
-    <div class="flex items-center space-x-6">
-      {#if $showWordsRead}
-        <div>Words Read: {wordCount}</div>
-      {/if}
+<div class="flex p-4 space-x-12 text-white">
+  <h1>Words Read: {wordCount}</h1>
+  <h1>WPM: {wpm}</h1>
+</div>
 
-      {#if $showWPM}
-        <div>WPM: {wpm}</div>
-      {/if}
-    </div>
-    <div class="z-10 justify-center">
-      <ClipboardSettings />
-    </div>
-  </div>
-  <div class="justify-center text-white">
-    {#each textArray as text, index (index)}
-      <div class="relative p-4 m-2 text-3xl bg-opacity-20 rounded bg-yblue">
-        {#each text.split("\n") as line, lineIndex}
-          {#if lineIndex === 0}
-            <div class="flex items-center">
-              <span class="mr-2 select-none">•</span>
-              <p class="font-sans font-bold text-white">{line}</p>
-            </div>
-          {:else}
+<div class="justify-center text-white">
+  {#each textArray as text, index (index)}
+    <div class="relative p-4 m-2 text-3xl bg-opacity-10 rounded bg-yblue">
+      {#each text.split("\n") as line, lineIndex}
+        {#if lineIndex === 0}
+          <div class="flex items-center">
+            <span class="mr-2 select-none">•</span>
             <p class="font-sans font-bold text-white">{line}</p>
-          {/if}
-        {/each}
-        <span
-          class="absolute top-2 right-2 cursor-pointer material-icons text-yblue"
-          on:click={() => removeLine(index)}>remove_circle</span
-        >
-      </div>
-    {/each}
-  </div>
+          </div>
+        {:else}
+          <p class="font-sans font-bold text-white">{line}</p>
+        {/if}
+      {/each}
+      <span
+        class="absolute top-2 right-2 cursor-pointer material-icons text-yblue"
+        on:click={() => removeLine(index)}>remove_circle</span
+      >
+    </div>
+  {/each}
 </div>
