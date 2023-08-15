@@ -72,9 +72,6 @@
     }
   });
 
-  $: {
-    console.log(backgroundColor);
-  }
 </script>
 
 <div
