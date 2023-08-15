@@ -71,7 +71,6 @@
       observer.disconnect();
     }
   });
-
 </script>
 
 <div

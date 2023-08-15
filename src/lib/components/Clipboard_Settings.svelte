@@ -54,7 +54,8 @@
         />
         Show WPM
       </label>
-      <div class="text-white cursor-pointer hover:bg-silverlake"> <!-- Removed p-4 -->
+      <div class="text-white cursor-pointer hover:bg-silverlake">
+        <!-- Removed p-4 -->
         <ColorInput
           class="full-size color-input-margin"
           bind:color={$pickedBackgroundColor}
