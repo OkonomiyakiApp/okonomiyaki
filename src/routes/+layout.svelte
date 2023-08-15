@@ -1,5 +1,3 @@
-<!-- $layout.svelte -->
-
 <script>
   import { onMount } from "svelte";
   import Navbar from "../lib/components/Navbar.svelte";
@@ -61,13 +59,28 @@
     z-index: 9999 !important;
   }
   :global(._toastItem) {
-    --toastBackground: #778da9;
-    --toastColor: #0d1b2a;
+    --toastBackground: theme(colors.silverlake) !important;
+    --toastColor: theme(colors.richblack) !important;
   }
   :global(._toastBar) {
-    --toastBarBackground: #415a77;
+    --toastBarBackground: theme(colors.yblue) !important;
   }
   :global(._toastContainer) {
     z-index: 9999 !important;
+  }
+  :global(.color-picker) {
+    background: theme(colors.yblue) !important;
+  }
+  :global(.input) {
+    background: theme(colors.yblue) !important;
+    margin: 10 !important;
+    padding: 10 !important;
+    border: 0px !important;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;
+    cursor: pointer !important;
+  }
+
+  :global(.input:hover) {
+    background: var(--hover-yblue) !important;
   }
 </style>

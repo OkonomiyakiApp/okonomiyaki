@@ -2,7 +2,6 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { pb } from "../../routes/api/main";
-  import { isLoading } from "../../routes/stores";
 
   // Spinning animations
   let spinning = false;

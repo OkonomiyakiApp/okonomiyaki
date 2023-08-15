@@ -62,7 +62,7 @@
       {#each days as day}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
-          class="mr-2 mb-2 hover:scale-110"
+          class="mr-2 mb-2 cursor-pointer hover:scale-110"
           style={`background-color: ${getColor(
             userActivityMap.get(formatDate(week, day)),
           )}; width: 15px; height: 15px;`}
