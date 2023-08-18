@@ -62,8 +62,6 @@
           title="Background"
         />
       </div>
-      <div class="p-4 cursor-pointer hover:bg-silverlake">Menu Item 2</div>
-      <div class="p-4 cursor-pointer hover:bg-silverlake">Menu Item 3</div>
     </div>
   {/if}
 </div>
