@@ -35,7 +35,7 @@
   "type": "module",
   "dependencies": {
     "eslint": "^8.48.0",
-    "material-icons": "^1.13.9",
+    "material-icons": "^1.13.10",
     "mocha": "^10.2.0",
     "pocketbase": "^0.16.0",
     "tiny-segmenter": "^0.2.0"
