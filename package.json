@@ -34,7 +34,7 @@
   },
   "type": "module",
   "dependencies": {
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "material-icons": "^1.13.11",
     "mocha": "^10.2.0",
     "pocketbase": "^0.18.0",
